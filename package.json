@@ -1,0 +1,17 @@
+{
+  "name": "show-data-debug",
+  "version": "1.0.0",
+  "description": "show debug data",
+  "main": "index.js",
+  "repository": "https://github.com/rcwestlake/show-data-debug.git",
+  "author": "rcwestlake",
+  "license": "MIT",
+  "dependencies": {
+    "browserify": "^16.2.2",
+    "codemirror": "^5.39.2",
+    "jquery": "^3.3.1"
+  },
+  "scripts": {
+    "build": "browserify src/index.js -o bundle.js"
+  }
+}
