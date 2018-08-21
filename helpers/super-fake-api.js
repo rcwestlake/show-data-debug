@@ -54,8 +54,8 @@ var debugModule  = (function() {
       const data = createData()
       return handleResponse(data)
     },
-    makeMultipleCall() {
-      const data = createData()
+    makeMultipleCall(numberOfCalls) {
+      const data = createData(numberOfCalls)
       return handleResponse(data)
     }
   }
@@ -75,6 +75,24 @@ var debugModule  = (function() {
           comment: 'Fetch Data From Really Important Table',
           data: [
             'test'
+          ]
+        }
+      ]
+    },
+    {
+      runName: 'Data Set Two',
+      variables: [
+        {
+          name: 'TheDate',
+          type: 'Date'
+        }
+      ],
+      steps: [
+        {
+          id: 0,
+          comment: 'Do Math',
+          data: [
+            'test two'
           ]
         }
       ]

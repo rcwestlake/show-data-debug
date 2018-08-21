@@ -1,32 +1,14 @@
 const editorRoot = document.getElementById('editor')
+const outputRoot = document.getElementById('data-output')
 
-const editor = CodeMirror.fromTextArea(editorRoot, {
-  lineNumbers: true,
-  lineWrapping: true,
-  mode: {
-    name: 'javascript',
-    json: true
-  },
-  autofocus: true,
-  tabSize: 2,
-  theme: 'neat',
-  matchBrackets: true,
-  styleActiveLine: true,
-  autoCloseBrackets: true,
-  styleSelectedText: true,
-  lineComment: true,
-  toggleComment: true,
-  blockComment: true,
-  continueComment: true,
-  lint: true,
-  foldGutter: true
-})
+const d = debugModule.Database.makeMultipleCall(2)
 
-const d = debugModule.Database.makeSingleCall()
-d.forEach((call, i) => {
-  if(i === 0) {
-    editor.setValue(JSON.stringify(...call.steps))
-  } else {
-    editor.replaceRange(JSON.stringify(call), CodeMirror.Pos(editor.lastLine()))
-  }
-})
+if(Array(d) && d.length) {
+  d.forEach((call, i) => {
+    outputRoot.appendChild(document.createElement('pre')).innerHTML = JSON.stringify(call, null, 2)
+  })
+} else {
+  alert('Unable to get data.')
+}
+
+outputRoot.appendChild(document.createTextNode('hello'))
