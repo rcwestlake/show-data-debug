@@ -1,4 +1,89 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+var debugModule  = (function() {
+  const getRandomNumInRange = (max) => {
+    let maxInRange = max
+    if(!maxInRange) {
+      maxInRange = 1
+    }
+    return Math.floor(Math.random() * Math.floor(maxInRange))
+  }
+
+  const getLength = (data) => {
+    if(Array(data)) {
+      return data.length
+    }
+  }
+
+  const createData = (numberOfDataCalls) => {
+    if(numberOfDataCalls) {
+      if(numberOfDataCalls > dataInDB.length) {
+        return new Error('Not enough data in Db. Select lower number.')
+      } else {
+        return fakeServerEndpoint(numberOfDataCalls)
+      }
+    } else {
+      return fakeServerEndpoint(1)
+    }
+  }
+
+  const fakeServerEndpoint = (numberOfCalls, existingRecords) => {
+    let result = []
+    if(existingRecords) {
+      result = existingRecords
+    }
+
+    result.push(dataInDB[getRandomNumInRange(numberOfCalls)])
+
+    if(numberOfCalls > 0) {
+      return fakeServerEndpoint(numberOfCalls--, result)
+    } else {
+      return result
+    }
+  }
+
+  const handleResponse = async (result) => {
+    if(result) {
+      return await new Promise(resolve => resolve(result))
+    } 
+  }
+
+  const doDBWork = {
+    async makeSingleCall() {
+      const data = createData(1)
+      return await handleResponse(data)
+    },
+    async makeMultipleCall() {
+      const data = createData()
+      return await handleResponse(data)
+    }
+  }
+
+  const dataInDB = [
+    {
+      runName: 'Data Set One',
+      variables: [
+        {
+          name: 'counter',
+          type: 'number'
+        }
+      ],
+      actions: [
+        {
+          id: 0,
+          comment: 'Fetch Data From Really Important Table',
+          data: [
+            'test'
+          ]
+        }
+      ]
+    }
+  ]
+
+  return {
+    Database: doDBWork
+  }
+})()
+},{}],2:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
@@ -10364,8 +10449,9 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 const $ = require('jquery')
+const Database = require('../helpers/super-fake-api')
 
 const $editor = document.getElementById('editor')
 
@@ -10388,5 +10474,5 @@ const editor = CodeMirror.fromTextArea($editor, {
   foldGutter: true
 })
 
-editor.setValue('{ hello: "heyyyy"}')
-},{"jquery":1}]},{},[2]);
+console.log(Database.Database)
+},{"../helpers/super-fake-api":1,"jquery":2}]},{},[3]);
